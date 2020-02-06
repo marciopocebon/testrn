@@ -41,6 +41,7 @@ platform :ios do
     cocoapods
 
     match(
+      git_url: "git@github.com:diego3g/deployrn-certs.git",
       git_basic_authorization: Base64.encode64("diego3g:#{ENV["CI_TOKEN"]}"),
       keychain_name: "actiontest_keychain",
       keychain_password: "citest",
