@@ -27,6 +27,7 @@ jobs:
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
           MATCH_REPO: git@github.com:diego3g/deployrn-certs.git
           APPLE_ACCOUNT: diego.schell.f@gmail.com
           TEAM_ID: KKY728EKXK
