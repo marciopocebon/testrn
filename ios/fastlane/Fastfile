@@ -1,0 +1,73 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Manual deploy to testflight"
+  lane :manual_testflight do
+    match(
+      type: "appstore",
+      readonly: true,
+      git_url: "git@github.com:diego3g/deployrn-certs.git"
+    )
+
+    increment_build_number(
+      xcodeproj: "./deployrn.xcodeproj"
+    )
+
+    build_app(
+      workspace: "deployrn.xcworkspace",
+      configuration: "Release",
+      scheme: "deployrn"
+    )
+
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Automatic deploy to testflight"
+  lane :ci_testflight do
+    keychain_name = ENV["MATCH_KEYCHAIN_NAME"]
+    keychain_password = ENV["MATCH_KEYCHAIN_PASSWORD"]
+
+    create_keychain(
+      name: keychain_name,
+      password: keychain_password,
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+
+    bundle_install
+
+    cocoapods
+
+    match(
+      git_url: "git@github.com:diego3g/deployrn-certs.git",
+      keychain_name: keychain_name,
+      keychain_password: keychain_password,
+      readonly: true,
+      type: "appstore"
+    )
+
+    increment_build_number(
+      xcodeproj: "./fastrn.xcodeproj"
+    )
+
+    build_app(
+      workspace: "fastrn.xcworkspace",
+      scheme: "fastrn",
+      export_method: "app-store",
+      build_path: "./builds",
+      output_directory: "./builds"
+    )
+
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+
+    delete_keychain(
+      name: keychain_name
+    )
+  end
+end
