@@ -1,2 +1,4 @@
-app_identifier("com.rocketseat.deployrn")
-apple_id("diego.schell.f@gmail.com")
+app_identifier "com.rocketseat.deployrn"
+
+apple_id ENV["APPLE_ACCOUNT"]
+team_id ENV["TEAM_ID"]

@@ -1,4 +1,5 @@
-default_platform(:ios)
+fastlane_version "2.98.0"
+default_platform :ios
 
 platform :ios do
   desc "Manual deploy to testflight"
@@ -26,16 +27,13 @@ platform :ios do
 
   desc "Automatic deploy to testflight"
   lane :ci_testflight do
-    keychain_name = ENV["MATCH_KEYCHAIN_NAME"]
-    keychain_password = ENV["MATCH_KEYCHAIN_PASSWORD"]
-
     create_keychain(
-      name: keychain_name,
-      password: keychain_password,
+      name: "actiontest_keychain",
+      password: "citest",
       default_keychain: true,
       unlock: true,
       timeout: 3600,
-      add_to_search_list: true
+      lock_when_sleeps: false
     )
 
     bundle_install
@@ -43,20 +41,20 @@ platform :ios do
     cocoapods
 
     match(
-      git_url: "git@github.com:diego3g/deployrn-certs.git",
-      keychain_name: keychain_name,
-      keychain_password: keychain_password,
-      readonly: true,
+      git_basic_authorization: Base64.encode64("diego3g:#{ENV["CI_TOKEN"]}"),
+      keychain_name: "actiontest_keychain",
+      keychain_password: "citest",
+      readonly: is_ci,
       type: "appstore"
     )
 
     increment_build_number(
-      xcodeproj: "./fastrn.xcodeproj"
+      xcodeproj: "./deployrn.xcodeproj"
     )
 
     build_app(
-      workspace: "fastrn.xcworkspace",
-      scheme: "fastrn",
+      workspace: "deployrn.xcworkspace",
+      scheme: "deployrn",
       export_method: "app-store",
       build_path: "./builds",
       output_directory: "./builds"
@@ -67,7 +65,7 @@ platform :ios do
     )
 
     delete_keychain(
-      name: keychain_name
+      name: "actiontest_keychain"
     )
   end
 end

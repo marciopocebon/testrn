@@ -1,0 +1,32 @@
+name: staging
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: macOS-latest
+
+    steps:
+      - uses: actions/checkout@v1 
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          
+      - name: Install
+        run: yarn
+
+      - name: Run fastlane
+        uses: maierj/fastlane-action@v1.4.0
+        env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+        with:
+          lane: 'ci_testflight'
+          subdirectory: 'ios'
