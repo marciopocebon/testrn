@@ -20,6 +20,9 @@ jobs:
       - name: Install
         run: yarn
 
+      - name: Brew
+        run: brew install librsvg imagemagick
+
       - name: Run fastlane
         working-directory: ios
         env:

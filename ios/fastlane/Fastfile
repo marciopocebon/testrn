@@ -52,6 +52,8 @@ platform :ios do
       xcodeproj: "./deployrn.xcodeproj"
     )
 
+    add_badge(dark: true, grayscale: true)
+
     build_app(
       workspace: "deployrn.xcworkspace",
       scheme: "deployrn",
