@@ -52,10 +52,7 @@ platform :ios do
       xcodeproj: "./deployrn.xcodeproj"
     )
  
-    add_badge(
-      dark: true, 
-      grayscale: true
-    )
+    add_badge
 
     build_app(
       workspace: "deployrn.xcworkspace",
