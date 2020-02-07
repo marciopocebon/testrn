@@ -63,6 +63,7 @@ platform :ios do
     )
 
     upload_to_testflight(
+      username: "ci@rocketseat.dev",
       skip_waiting_for_build_processing: true
     )
 
