@@ -59,7 +59,8 @@ platform :ios do
     )
 
     commit_version_bump(
-      message: "Version Bump"
+      xcodeproj: "./deployrn.xcodeproj",
+      message: "ci: Fastlane version bump"
     )
 
     upload_to_testflight(
