@@ -53,10 +53,8 @@ platform :ios do
     build_app(
       workspace: "deployrn.xcworkspace",
       scheme: "deployrn",
-      export_method: "app-store"
+      export_method: "app-store",
     )
-
-    clean_build_artifacts
 
     git_commit(
       path: ["./*.plist", "./deployrn.xcodeproj/project.pbxproj"], 
