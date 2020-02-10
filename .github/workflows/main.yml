@@ -33,10 +33,9 @@ jobs:
         run: yarn
 
       - uses: actions/cache@v1
-        working-directory: ios
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('ios/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
 
@@ -47,10 +46,9 @@ jobs:
           bundle install --jobs 4 --retry 3
 
       - uses: actions/cache@v1
-        working-directory: ios
         with:
           path: Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
 
