@@ -58,6 +58,14 @@ platform :ios do
       output_directory: "./builds"
     )
 
+    reset_git_repo(
+      exclude: [
+        'ios/deployrn.xcodeproj/project.pbxproj',
+        'ios/deployrn/Info.plist',
+        'ios/deployrnTests/Info.plist'
+      ]
+    )
+
     commit_version_bump(
       xcodeproj: "./deployrn.xcodeproj",
       message: "ci: Fastlane version bump"
