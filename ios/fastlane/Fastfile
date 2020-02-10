@@ -61,9 +61,9 @@ platform :ios do
     reset_git_repo(
       force: true,
       exclude: [
-        'ios/deployrn.xcodeproj/project.pbxproj',
-        'ios/deployrn/Info.plist',
-        'ios/deployrnTests/Info.plist'
+        './deployrn.xcodeproj/project.pbxproj',
+        './deployrn/Info.plist',
+        './deployrnTests/Info.plist'
       ]
     )
 
