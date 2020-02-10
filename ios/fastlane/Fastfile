@@ -64,8 +64,8 @@ platform :ios do
 
     clean_build_artifacts
 
-    commit_version_bump(
-      xcodeproj: "./deployrn.xcodeproj",
+    git_commit(
+      path: ["./*.plist", "./deployrn.xcodeproj/project.pbxproj"], 
       message: "ci: Fastlane version bump"
     )
 
