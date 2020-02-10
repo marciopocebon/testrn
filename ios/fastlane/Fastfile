@@ -51,6 +51,7 @@ platform :ios do
     add_badge
 
     update_info_plist(
+      plist_path: "deployrn/Info.plist",
       app_identifier: "com.rocketseat.deployrn.staging"
     )
 
