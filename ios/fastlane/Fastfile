@@ -27,8 +27,6 @@ platform :ios do
 
   desc "Automatic deploy to testflight"
   lane :ci_testflight do
-    ensure_git_status_clean
-
     create_keychain(
       name: "actiontest_keychain",
       password: "citest",
@@ -61,6 +59,7 @@ platform :ios do
     )
 
     reset_git_repo(
+      force: true,
       exclude: [
         'ios/deployrn.xcodeproj/project.pbxproj',
         'ios/deployrn/Info.plist',
