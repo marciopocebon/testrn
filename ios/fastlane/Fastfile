@@ -44,28 +44,25 @@ platform :ios do
       type: "appstore"
     )
 
+    reset_git_repo
+
     increment_build_number(
       xcodeproj: "./deployrn.xcodeproj"
     )
  
     add_badge
 
+    update_info_plist(
+      app_identifier: "com.rocketseat.deployrn.staging"
+    )
+
     build_app(
       workspace: "deployrn.xcworkspace",
       scheme: "deployrn",
-      export_method: "app-store",
-      build_path: "./builds",
-      output_directory: "./builds"
+      export_method: "app-store"
     )
 
-    reset_git_repo(
-      force: true,
-      exclude: [
-        './deployrn.xcodeproj/project.pbxproj',
-        './deployrn/Info.plist',
-        './deployrnTests/Info.plist'
-      ]
-    )
+    clean_build_artifacts
 
     commit_version_bump(
       xcodeproj: "./deployrn.xcodeproj",
