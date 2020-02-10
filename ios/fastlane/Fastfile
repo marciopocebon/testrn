@@ -36,10 +36,6 @@ platform :ios do
       lock_when_sleeps: false
     )
 
-    bundle_install
-
-    cocoapods
-
     match(
       git_url: "https://diego3g:#{ENV["CI_TOKEN"]}@github.com/diego3g/deployrn-certs.git",
       keychain_name: "actiontest_keychain",
@@ -60,6 +56,10 @@ platform :ios do
       export_method: "app-store",
       build_path: "./builds",
       output_directory: "./builds"
+    )
+
+    commit_version_bump(
+      message: "Version Bump"
     )
 
     upload_to_testflight(

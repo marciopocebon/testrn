@@ -16,9 +16,47 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
           
-      - name: Install
+      - name: Install NPM dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
+
+      - uses: actions/cache@v1
+        working-directory: ios
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install bundle dependencies
+        working-directory: ios
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - uses: actions/cache@v1
+        working-directory: ios
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install Pod dependencies
+        working-directory: ios
+        run: pod install
 
       - name: Brew
         run: brew install librsvg imagemagick
